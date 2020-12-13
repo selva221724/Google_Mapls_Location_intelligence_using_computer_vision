@@ -24,6 +24,12 @@ In case of the autonomous decision using the google maps to find the nearest **r
 - matplotlib
 - shapely
 
+use **requirements.txt** to install the packages on your environment
+```buildoutcfg
+pip install -r requirements.txt
+```
+
+
 ## Problem Statement in Image Representation
 ![alt text](readme_imgs/probelm.png)
 
