@@ -101,8 +101,11 @@ for image in image_folder:
 
     res = min(distance_classes.items(), key=lambda x: x[1][0])
     cv2.circle(img, (midX, midY), radius=5, color=(255, 0, 0), thickness=2)
-    cv2.circle(img, (entrance[0], entrance[1]), radius=5, color=(255, 255, 0), thickness=4)
-    cv2.circle(img, (res[1][1][0], res[1][1][1]), radius=5, color=(255, 0, 255), thickness=2)
+    cv2.circle(img, (entrance[0], entrance[1]), radius=5, color=(0, 0, 255), thickness=4)
+    cv2.circle(img, (res[1][1][0], res[1][1][1]), radius=5, color=(0, 255, 0), thickness=2)
+    cv2.putText(img, 'O - Object Centre', (470, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+    cv2.putText(img, 'O - Entrance', (470, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+    cv2.putText(img, 'O - Target Location', (470, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     fig = plt.figure()
     plt.imshow(img)
     plt.savefig('./result_imgs/' + image.split('/')[-1])
