@@ -28,34 +28,36 @@ def slice_class(img_input, color):
 
     temp_contours = []
     for cnt in contours:
-        if cv2.contourArea(cnt) > 100:
+        if cv2.contourArea(cnt) > 100:  # this can be vary if we have different resolution,
+            # but if we have GSD ,it can be automated
             temp_contours.append(cnt.tolist())
     return temp_contours
 
 
-img_path = './Images'
+img_path = './Images'  # where your testing images goes into
 image_folder = [os.path.join(img_path, image) for image in os.listdir(img_path)]
 image_folder = sorted(image_folder)
 
 for image in image_folder:
-    img = cv2.imread(image)
+    img = cv2.imread(image)  # read the Image ( BGR )
     color_classes = {'building': [(13, 3, 244), (255, 18, 255)],
                      'veg': [(0, 0, 0), (73, 255, 235)],
                      'road': [(0, 0, 0), (0, 255, 255)]
                      }
     w, h = img.shape[1], img.shape[0]
-    midX, midY = int(w / 2), int(h / 2)
+    midX, midY = int(w / 2), int(h / 2)  # find the mid point of the image
     mid_point = Point(midX, midY)
 
     entrance = None
     Target_class = None
     shop = None
+    # find if the point falls within any of the classes
     for i, j in color_classes.items():
-        conts = slice_class(img, j)
+        conts = slice_class(img, j)  # to slice the class
         for cnt in conts:
             coords = [list(i[0]) for i in cnt]
             coords_poly = Polygon(coords)
-            if coords_poly.contains(mid_point):
+            if coords_poly.contains(mid_point):  # if any of the contour contains the point
                 if i == 'road':
                     entrance = [midX, midY]
                     Target_class = ['building']
@@ -73,12 +75,12 @@ for image in image_folder:
                     Target_class = ['road', 'building']
                     shop = cnt
 
-    if Target_class is None:
+    if Target_class is None:  # if the centre of the point does not falls within any of the classes
         entrance = [midX, midY]
         Target_class = ['road', 'building']
 
     distance_classes = {}
-
+    # find the nearest wall and then the target class
     for target in Target_class:
         Target_contours = slice_class(img, color_classes[target])
         try:
@@ -97,9 +99,11 @@ for image in image_folder:
                 distance, end_coord = min(dists, key=lambda x: x[0])
             temp.append([distance, end_coord])
 
-        distance_classes.update({target: min(temp, key=lambda x: x[0])})
+        distance_classes.update({target: min(temp, key=lambda x: x[0])})  # to slice the nearest target
 
     res = min(distance_classes.items(), key=lambda x: x[1][0])
+
+    # plot and print
     cv2.circle(img, (midX, midY), radius=5, color=(255, 0, 0), thickness=2)
     cv2.circle(img, (entrance[0], entrance[1]), radius=5, color=(0, 0, 255), thickness=4)
     cv2.circle(img, (res[1][1][0], res[1][1][1]), radius=5, color=(0, 255, 0), thickness=2)
