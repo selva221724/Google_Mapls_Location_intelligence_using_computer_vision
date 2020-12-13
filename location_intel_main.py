@@ -59,6 +59,7 @@ for image in image_folder:
                 if i == 'road':
                     entrance = [midX, midY]
                     Target_class = ['building']
+
                 elif i == 'building':
                     poly_coords = list(coords_poly.exterior.coords)
                     poly_coords = [[int(k[0]), int(k[1])] for k in poly_coords]
@@ -71,12 +72,13 @@ for image in image_folder:
                         entrance = min(dists, key=lambda x: x[0])[1]
                     Target_class = ['road', 'building']
                     shop = cnt
+
     if Target_class is None:
         entrance = [midX, midY]
         Target_class = ['road', 'building']
 
     distance_classes = {}
-    # print('Target',Target_class)
+
     for target in Target_class:
         Target_contours = slice_class(img, color_classes[target])
         try:
@@ -94,6 +96,7 @@ for image in image_folder:
                 dists.append([dist, [x2, y2]])
                 distance, end_coord = min(dists, key=lambda x: x[0])
             temp.append([distance, end_coord])
+
         distance_classes.update({target: min(temp, key=lambda x: x[0])})
 
     res = min(distance_classes.items(), key=lambda x: x[1][0])
@@ -102,5 +105,6 @@ for image in image_folder:
     cv2.circle(img, (res[1][1][0], res[1][1][1]), radius=5, color=(255, 0, 255), thickness=2)
     fig = plt.figure()
     plt.imshow(img)
-    plt.savefig('./final_res/' + image.split('/')[-1])
+    plt.savefig('./result_imgs/' + image.split('/')[-1])
+    plt.close()
     print('{}   {:.3f}  {}'.format(image.split('/')[-1], res[1][0], res[0]))

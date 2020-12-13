@@ -1,4 +1,4 @@
-![alt text](readme_images/arch.png)
+![alt text](readme_imgs/logo.png)
 
 # Location intelligence on Google Maps using computer vision 
 
@@ -22,3 +22,16 @@ In case of the autonomous decision using the google maps to find the nearest roa
 
 ## Sample Output Image
 ![alt text](readme_imgs/sample_img.png)
+
+### console output
+```buildoutcfg
+tmp_1.png   57.940  building
+tmp_2.png   13.000  building
+tmp_3.png   47.127  building
+tmp_4.png   12.083  building
+tmp_5.png   130.000  road
+tmp_6.png   14.560  road
+tmp_7.png   8.544  building
+tmp_8.png   41.000  building
+tmp_9.png   19.849  road
+```
