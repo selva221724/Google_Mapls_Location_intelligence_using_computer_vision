@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ![alt text](readme_imgs/sample_img.png)
 
 ## Sample Output Image
-![alt text](readme_imgs/result.png)
+![alt text](readme_imgs/result_out.png)
 
 ### console output
 ```buildoutcfg
